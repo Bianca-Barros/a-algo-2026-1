@@ -2,7 +2,7 @@ import math
 
 
 class BellmanFord:
-    """Implementa o algoritmo de Bellman-Ford."""
+    #implementa o algoritmo
 
     def __init__(self, vertices):
         self.vertices = vertices
@@ -14,14 +14,13 @@ class BellmanFord:
         destino,
         peso
     ):
-        """Adiciona uma aresta ao grafo."""
 
         self.arestas.append(
             (origem, destino, peso)
         )
 
     def executar(self, origem_inicial):
-        """Executa o algoritmo."""
+        #executa o algoritmo
 
         distancias = {
             vertice: math.inf
@@ -98,7 +97,6 @@ class BellmanFord:
 
 
 def main():
-    """Função principal."""
 
     vertices = [0, 1, 2, 3, 4]
 
