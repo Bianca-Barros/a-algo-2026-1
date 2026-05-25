@@ -2,10 +2,10 @@ import heapq
 
 
 class Grafo:
-    """Representa um grafo ponderado."""
+    #grafo ponderado
 
     def __init__(self):
-        """Inicializa o grafo vazio."""
+        #inicializa o grafo vazio
         self.grafo = {}
 
     def adicionar_aresta(
@@ -14,7 +14,7 @@ class Grafo:
         destino,
         peso
     ):
-        """Adiciona uma aresta ao grafo."""
+        #adiciona uma aresta ao grafo
 
         if origem not in self.grafo:
             self.grafo[origem] = []
@@ -31,7 +31,7 @@ class Grafo:
         )
 
     def prim(self, inicio):
-        """Executa o algoritmo de Prim."""
+       #executa o algoritmo
 
         visitados = set()
         mst = []
@@ -92,7 +92,7 @@ class Grafo:
 
 
 def main():
-    """Função principal."""
+    #função principal
 
     grafo = Grafo()
 
