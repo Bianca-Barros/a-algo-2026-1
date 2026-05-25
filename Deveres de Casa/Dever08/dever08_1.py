@@ -92,7 +92,6 @@ class Grafo:
 
 
 def main():
-    #função principal
 
     grafo = Grafo()
 
