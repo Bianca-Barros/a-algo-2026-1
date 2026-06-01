@@ -1,5 +1,5 @@
 import heapq
-
+#prim
 
 class Grafo:
     #grafo ponderado
