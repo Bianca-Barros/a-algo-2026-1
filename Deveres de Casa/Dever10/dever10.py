@@ -1,108 +1,173 @@
-# NP 
-class SubsetSum:
-    """Resolve o problema Subset Sum."""
+# kruskal
+class UnionFind:
+    """Implementa a estrutura Union-Find."""
 
-    def __init__(self, conjunto, alvo):
-        """Inicializa o conjunto e o valor alvo."""
+    def __init__(self, quantidade_vertices):
+        """Inicializa os conjuntos."""
 
-        self.conjunto = conjunto
-        self.alvo = alvo
+        self.pai = list(
+            range(quantidade_vertices)
+        )
 
-    def encontrar_subconjunto(
+        self.rank = [
+            0
+            for _ in range(
+                quantidade_vertices
+            )
+        ]
+
+    def find(self, vertice):
+        """Retorna o representante do conjunto."""
+
+        if self.pai[vertice] != vertice:
+
+            self.pai[vertice] = self.find(
+                self.pai[vertice]
+            )
+
+        return self.pai[vertice]
+
+    def union(
         self,
-        indice=0,
-        soma_atual=0,
-        subconjunto=None
+        origem,
+        destino
     ):
-        """Busca um subconjunto cuja soma seja igual ao alvo."""
+        """Une dois conjuntos."""
 
-        if subconjunto is None:
-            subconjunto = []
+        raiz_origem = self.find(origem)
+        raiz_destino = self.find(destino)
 
-        if soma_atual == self.alvo:
-            return subconjunto
+        if raiz_origem == raiz_destino:
+            return False
 
-        if indice == len(self.conjunto):
-            return None
+        if (
+            self.rank[raiz_origem]
+            < self.rank[raiz_destino]
+        ):
 
-        resultado = self.encontrar_subconjunto(
-            indice + 1,
-            soma_atual + self.conjunto[indice],
-            subconjunto + [self.conjunto[indice]]
+            self.pai[
+                raiz_origem
+            ] = raiz_destino
+
+        elif (
+            self.rank[raiz_origem]
+            > self.rank[raiz_destino]
+        ):
+
+            self.pai[
+                raiz_destino
+            ] = raiz_origem
+
+        else:
+
+            self.pai[
+                raiz_destino
+            ] = raiz_origem
+
+            self.rank[
+                raiz_origem
+            ] += 1
+
+        return True
+
+
+class Grafo:
+    """Representa um grafo não direcionado."""
+
+    def __init__(
+        self,
+        quantidade_vertices
+    ):
+        """Inicializa o grafo."""
+
+        self.quantidade_vertices = (
+            quantidade_vertices
         )
 
-        if resultado is not None:
-            return resultado
+        self.arestas = []
 
-        return self.encontrar_subconjunto(
-            indice + 1,
-            soma_atual,
-            subconjunto
+    def adicionar_aresta(
+        self,
+        origem,
+        destino
+    ):
+        """Adiciona uma aresta."""
+
+        self.arestas.append(
+            (
+                origem,
+                destino
+            )
         )
+
+    def tem_ciclo(self):
+        """Verifica se existe ciclo."""
+
+        conjuntos = UnionFind(
+            self.quantidade_vertices
+        )
+
+        for (
+            origem,
+            destino
+        ) in self.arestas:
+
+            if not conjuntos.union(
+                origem,
+                destino
+            ):
+
+                return True
+
+        return False
 
 
 def main():
-    """Executa os exemplos do exercício."""
+    """Função principal."""
 
-    casos_teste = [
-        ([2, 4, 6, 10], 16),
-        ([-5, -2, 1, 3, 7, 12, 15, 21], 0),
-        (
-            [
-                12345, 87654, 43210, 54321, 11111,
-                22222, 33333, 44444, 55555, 66666,
-                77777, 88888, 99999, 13579, 24680,
-                11223, 44556, 77889, 99000, 31415,
-                27182, 16180, 14142, 17320, 22360,
-                26457, 31622, 44721, 50000, 60000
-            ],
-            500000
+    grafo = Grafo(5)
+
+    grafo.adicionar_aresta(
+        0,
+        1
+    )
+
+    grafo.adicionar_aresta(
+        1,
+        2
+    )
+
+    grafo.adicionar_aresta(
+        2,
+        3
+    )
+
+    grafo.adicionar_aresta(
+        3,
+        4
+    )
+
+    grafo.adicionar_aresta(
+        4,
+        1
+    )
+
+    if grafo.tem_ciclo():
+
+        print(
+            "O grafo possui ciclo."
         )
-    ]
 
-    for conjunto, alvo in casos_teste:
+    else:
 
-        problema = SubsetSum(
-            conjunto,
-            alvo
+        print(
+            "O grafo não possui ciclo."a
         )
 
-        resultado = (
-            problema.encontrar_subconjunto()
-        )
-
-        print(f"\nConjunto: {conjunto}")
-        print(f"Alvo: {alvo}")
-
-        if resultado is not None:
-            print(
-                "Subconjunto encontrado:"
-            )
-            print(resultado)
-        else:
-            print(
-                "Não existe subconjunto "
-                "com essa soma."
-            )
-
-
-"""
-
-Conjunto: [2, 4, 6, 10]
-Alvo: 16
-Subconjunto encontrado:
-[2, 4, 10]
-
-Conjunto: [-5, -2, 1, 3, 7, 12, 15, 21]
-Alvo: 0
-Subconjunto encontrado:
-[]
-
-Conjunto: [12345, 87654, 43210, 54321, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 13579, 24680, 11223, 44556, 77889, 99000, 31415, 27182, 16180, 14142, 17320, 22360, 26457, 31622, 44721, 50000, 60000]
-Alvo: 500000
-Subconjunto encontrado:
-[12345, 87654, 43210, 54321, 11111, 22222, 33333, 44444, 13579, 27182, 14142, 26457, 50000, 60000]
 
 if __name__ == "__main__":
     main()
+
+"""
+O grafo possui ciclo.
 """
