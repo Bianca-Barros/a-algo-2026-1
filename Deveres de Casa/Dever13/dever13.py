@@ -152,3 +152,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+Solução encontrada:
+[3, 8, 11, 4, 6, 1, 10, 7, 0, 2, 5, 9]
+Número de conflitos: 0
+"""
